@@ -21,10 +21,10 @@ gulp.task('scss', () => {
 
 gulp.task('less', () => {
   let scss = gulp
-    .src('src/*.less')
+    .src('src/*/css/*.less')
     .pipe(less())
     .pipe(gulp.dest('tmp'));
-  let images = gulp.src('src/*.jpg').pipe(gulp.dest('tmp'));
+  let images = gulp.src('src/*/img/*').pipe(gulp.dest('tmp'));
   return merge(scss, images)
     .pipe(rev())
     .pipe(override())
