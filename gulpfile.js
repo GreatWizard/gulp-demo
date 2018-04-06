@@ -6,29 +6,37 @@ const less = require('gulp-less');
 const merge = require('merge-stream');
 
 gulp.task('scss', () => {
-  let scss = gulp
-    .src('src/*.scss')
-    .pipe(sass())
+  let style = gulp
+    .src('src/foo/css/*.scss', { base: 'src' })
+    .pipe(sass({ outputStyle: 'compressed' }))
     .pipe(gulp.dest('tmp'));
-  let images = gulp.src('src/*.jpg').pipe(gulp.dest('tmp'));
-  return merge(scss, images)
+
+  let images = gulp
+    .src('src/foo/img/*.*', { base: 'src' })
+    .pipe(gulp.dest('tmp'));
+
+  return merge(style, images)
     .pipe(rev())
     .pipe(override())
     .pipe(gulp.dest('dist'))
-    .pipe(rev.manifest())
+    .pipe(rev.manifest('manifest.json'))
     .pipe(gulp.dest('dist'));
 });
 
 gulp.task('less', () => {
-  let scss = gulp
-    .src('src/*.less')
+  let style = gulp
+    .src('src/foo/css/*.less', { base: 'src' })
     .pipe(less())
     .pipe(gulp.dest('tmp'));
-  let images = gulp.src('src/*.jpg').pipe(gulp.dest('tmp'));
-  return merge(scss, images)
+
+  let images = gulp
+    .src('src/foo/img/*.*', { base: 'src' })
+    .pipe(gulp.dest('tmp'));
+
+  return merge(style, images)
     .pipe(rev())
     .pipe(override())
     .pipe(gulp.dest('dist'))
-    .pipe(rev.manifest())
+    .pipe(rev.manifest('manifest.json'))
     .pipe(gulp.dest('dist'));
 });
